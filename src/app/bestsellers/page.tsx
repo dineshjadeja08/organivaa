@@ -1,0 +1,1 @@
+import {ShopGrid} from "@/components/shop-grid";export default function Page(){return <><div className="page-hero"><span className="eyebrow">BESTSELLERS</span><h1>Rituals people<br/>return to.</h1><p>A concise edit of our most-loved mock collection.</p></div><ShopGrid mode="bestsellers"/></>}

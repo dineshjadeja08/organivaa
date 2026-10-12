@@ -1,0 +1,1 @@
+import {ShopGrid} from "@/components/shop-grid";export default function Page(){return <><div className="page-hero"><span className="eyebrow">CONSIDERED TOGETHER</span><h1>Daily ritual sets.</h1><p>Complementary products brought together with a clear purpose—not an overloaded upsell.</p></div><ShopGrid mode="bundles"/></>}

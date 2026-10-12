@@ -1,0 +1,22 @@
+import Image from "next/image";
+import Link from "next/link";
+import {notFound} from "next/navigation";
+import {Check,FileCheck2,Leaf,MapPin,ShieldCheck,Sun} from "lucide-react";
+import {getCatalogProduct,getCatalogProducts,getProductReviews} from "@/lib/catalog";
+import {ProductBuy} from "@/components/product-buy";
+import {ProductCard} from "@/components/product-card";
+import {ReviewSection} from "@/components/review-section";
+
+export default async function Page({params}:{params:Promise<{handle:string}>}){
+ const {handle}=await params;const [p,products,reviews]=await Promise.all([getCatalogProduct(handle),getCatalogProducts(),getProductReviews(handle)]);if(!p)notFound();const related=products.filter(x=>x.id!==p.id&&x.concern===p.concern).concat(products.filter(x=>x.id!==p.id&&x.concern!==p.concern)).slice(0,3);
+ return <>
+  <section className="pdp"><div><div className="breadcrumbs"><Link href="/">Home</Link> / <Link href="/shop">Shop</Link> / {p.name}</div><div className="pdp-gallery-grid"><div className="pdp-gallery main"><Image src={p.image} alt={`${p.name} product pack`} fill priority sizes="(max-width: 1000px) 100vw, 55vw"/></div><div className="pdp-gallery detail"><Image src={p.image} alt={`${p.ingredient} botanical detail`} fill sizes="(max-width: 1000px) 50vw, 25vw"/></div><div className="pdp-gallery detail label-detail"><Image src={p.image} alt={`${p.name} label detail`} fill sizes="(max-width: 1000px) 50vw, 25vw"/></div></div></div>
+   <div className="pdp-info"><span className="eyebrow">{p.ingredient} · {p.format} · {p.ritual}</span><h1>{p.name}</h1><p className="pdp-lead">{p.purpose}</p><div className="pdp-facts"><span><Leaf/><b>Focused formula</b><small>Approved label data pending</small></span><span><MapPin/><b>Origin record</b><small>{p.origin}</small></span><span><ShieldCheck/><b>Quality file</b><small>Documents shown only when approved</small></span></div><ProductBuy product={p}/></div>
+  </section>
+  <section className="product-story"><div><span className="eyebrow">THE RITUAL</span><h2>A clearer place in your day.</h2><p>{p.name} is presented as a simple {p.ritual.toLowerCase()} ritual. Final directions, quantities and approved benefits will flow from reviewed product data—not marketing placeholders.</p></div><ol><li><Sun/><span><small>01 · WHEN</small><b>{p.ritual}</b></span></li><li><Check/><span><small>02 · FORMAT</small><b>{p.packSize} · {p.servings} servings</b></span></li><li><Leaf/><span><small>03 · HOW</small><b>Follow approved pack directions</b></span></li></ol></section>
+  <section className="detail-sections"><details open><summary>Why this formula</summary><p>A focused demo formulation designed around {p.ingredient}. Final ingredient amounts and approved product claims must be supplied through structured product data before launch.</p></details><details><summary>Full ingredients & quantities</summary><p>Awaiting approved label data. No placeholder quantities are presented as fact.</p></details><details><summary>How and when to use</summary><p>Suggested moment: {p.ritual}. Always follow final package directions; usage guidance will be mapped from approved product metafields.</p></details><details><summary>Warnings & suitability</summary><p>Consult the product label and a qualified professional where appropriate, especially if pregnant, nursing, taking medication, or managing a health condition. This product is not intended to diagnose, treat, cure or prevent disease.</p></details></section>
+  <section className="proof-panel"><div><FileCheck2/><span className="eyebrow">PROOF, NOT PROMISES</span><h2>Quality documents belong beside the product.</h2><p>This storefront has designated space for ingredient identity, supplier origin, manufacturing and batch documents. Links remain unavailable until each record is reviewed and approved.</p></div><div className="document-list">{["Ingredient specification","Manufacturing record","Batch test report","Approved certifications"].map(x=><span key={x}><b>{x}</b><small>Awaiting verified document</small></span>)}</div></section>
+  <ReviewSection handle={handle} initial={reviews}/>
+  <section className="section related"><div className="section-head"><div><span className="eyebrow">PAIR WITH INTENTION</span><h2>Explore complementary rituals</h2></div><Link className="underlink" href="/shop">View all products</Link></div><div className="product-grid three">{related.map(x=><ProductCard key={x.id} product={x}/>)}</div></section>
+ </>
+}

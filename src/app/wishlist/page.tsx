@@ -1,0 +1,2 @@
+import {WishlistGrid} from "@/components/product-history";
+export default function WishlistPage(){return <><section className="page-hero"><span className="breadcrumbs">Home / Wishlist</span><span className="eyebrow">SAVED FOR LATER</span><h1>Your wishlist</h1><p>A private shortlist stored on this device. Sign-in sync can be added when the customer account provider is connected.</p></section><section className="catalog"><WishlistGrid/></section></>}

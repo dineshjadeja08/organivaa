@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";import {isAdmin} from "@/lib/admin/auth";
+export async function GET(){if(!await isAdmin())return NextResponse.json({error:"Unauthorized"},{status:401});try{const r=await fetch(`${process.env.FLASK_API_URL??"http://127.0.0.1:5000/api/v1"}/admin/orders`,{headers:{"x-service-token":process.env.FLASK_SERVICE_TOKEN??"organivaa-local-service-token"},cache:"no-store"});return NextResponse.json(await r.json(),{status:r.status})}catch{return NextResponse.json({error:"Order service unavailable"},{status:503})}}

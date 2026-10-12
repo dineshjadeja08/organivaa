@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";
+export async function POST(request:Request){const body=await request.json().catch(()=>null);try{const response=await fetch(`${process.env.FLASK_API_URL??"http://127.0.0.1:5000/api/v1"}/reviews`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body),cache:"no-store"});return NextResponse.json(await response.json(),{status:response.status})}catch{return NextResponse.json({error:"Review service unavailable"},{status:503})}}

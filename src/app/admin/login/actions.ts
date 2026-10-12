@@ -1,0 +1,2 @@
+"use server";import {redirect} from "next/navigation";import {z} from "zod";import {createAdminSession,validPassword} from "@/lib/admin/auth";
+export async function login(_: {error?:string}|undefined,formData:FormData){const parsed=z.object({password:z.string().min(1)}).safeParse({password:formData.get("password")});if(!parsed.success)return {error:"Enter your admin password."};if(!validPassword(parsed.data.password))return {error:"Invalid credentials or admin authentication is not configured."};await createAdminSession();redirect("/admin")}

@@ -1,0 +1,4 @@
+import Link from "next/link";
+import {notFound} from "next/navigation";
+const content:{[k:string]:[string,string]}={orders:["Orders","No orders yet. Completed Shopify orders will appear here after secure customer authentication."],addresses:["Addresses","Saved addresses will be managed through the authenticated customer account."],profile:["Profile","Personal details and communication preferences will be managed securely."],wishlist:["Wishlist","Products saved for later will appear here."]};
+export default async function Page({params}:{params:Promise<{section:string}>}){const {section}=await params;const x=content[section];if(!x)notFound();return <article className="content-page"><span className="breadcrumbs">Account / {x[0]}</span><h1>{x[0]}</h1><p>{x[1]}</p><Link className="underlink" href="/account">Back to account</Link></article>}

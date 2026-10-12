@@ -1,0 +1,1 @@
+import type {MetadataRoute} from "next";export default function manifest():MetadataRoute.Manifest{return {name:"Organivaa",short_name:"Organivaa",description:"Thoughtful botanical wellness",start_url:"/",display:"standalone",background_color:"#f7f4ea",theme_color:"#173f35",icons:[{src:"/favicon.svg",sizes:"any",type:"image/svg+xml"}]}}

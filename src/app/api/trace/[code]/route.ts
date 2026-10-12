@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";
+export async function GET(_:Request,{params}:{params:Promise<{code:string}>}){const {code}=await params;try{const response=await fetch(`${process.env.FLASK_API_URL??"http://127.0.0.1:5000/api/v1"}/trace/${encodeURIComponent(code)}`,{cache:"no-store"});return NextResponse.json(await response.json(),{status:response.status})}catch{return NextResponse.json({error:"Traceability service unavailable"},{status:503})}}

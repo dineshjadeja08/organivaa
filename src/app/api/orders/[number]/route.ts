@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";
+export async function GET(request:Request,{params}:{params:Promise<{number:string}>}){const {number}=await params;const email=new URL(request.url).searchParams.get("email")??"";try{const response=await fetch(`${process.env.FLASK_API_URL??"http://127.0.0.1:5000/api/v1"}/orders/${encodeURIComponent(number)}?email=${encodeURIComponent(email)}`,{cache:"no-store"});return NextResponse.json(await response.json(),{status:response.status})}catch{return NextResponse.json({error:"Order service unavailable"},{status:503})}}

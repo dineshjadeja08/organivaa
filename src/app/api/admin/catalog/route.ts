@@ -1,0 +1,5 @@
+import {NextResponse} from "next/server";
+import {isAdmin} from "@/lib/admin/auth";
+const base=()=>process.env.FLASK_API_URL??"http://127.0.0.1:5000/api/v1";const headers=()=>({"content-type":"application/json","x-service-token":process.env.FLASK_SERVICE_TOKEN??"organivaa-local-service-token","x-operator":"organivaa-next-admin"});
+export async function GET(){if(!await isAdmin())return NextResponse.json({error:"Unauthorized"},{status:401});try{const r=await fetch(`${base()}/admin/catalog/products`,{headers:headers(),cache:"no-store"});return NextResponse.json(await r.json(),{status:r.status})}catch{return NextResponse.json({error:"Flask catalog unavailable"},{status:503})}}
+export async function POST(request:Request){if(!await isAdmin())return NextResponse.json({error:"Unauthorized"},{status:401});try{const r=await fetch(`${base()}/admin/catalog/products`,{method:"POST",headers:headers(),body:JSON.stringify(await request.json()),cache:"no-store"});return NextResponse.json(await r.json(),{status:r.status})}catch{return NextResponse.json({error:"Flask catalog unavailable"},{status:503})}}
